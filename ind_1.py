@@ -25,11 +25,11 @@ if __name__ == '__main__':
             phone = input("Номер телефона ")
             birthday = list(map(int, input("Дата рождения в формате: дд,мм,гггг ").split(',')))
 
-            if 0 > birthday[1] > 12:
+            if 1 >= birthday[1] > 12:
                 print("Такого месяца не существует!", file=sys.stderr)
                 exit(1)
 
-            if 0 > birthday[0] > 31:
+            if 1 >= birthday[0] > 31:
                 print("Такого дня не существует!", file=sys.stderr)
                 exit(1)
 
@@ -49,20 +49,24 @@ if __name__ == '__main__':
                 people.sort(key=lambda item: item.get('name', ''))
 
         elif command == 'list':
-            print(people)
+            for person in people:
+                for d in person:
+                    print(d, ':', person[d])
 
         elif command.startswith('select '):
             parts = command.split(' ', maxsplit=2)
-            period = int(parts[1])
+            month = int(parts[1])
 
             count = 0
             for person in people:
-                if person.get('birthday', birthday[1]) == period:
-                    count += 1
-                    print(f'{count}, {person.get("name", "")}')
+                birthday = person.get('birthday', [])
+                if birthday:
+                    if birthday[1] == month:
+                        count += 1
+                        print(f'{count}, {person.get("name", "")}')
 
             if count == 0:
-                print(f"Именинников в {period} месяце нетю :(")
+                print(f"Именинников в {month} месяце нетю :(")
 
         elif command == 'help':
             print("Список команд:\n")
