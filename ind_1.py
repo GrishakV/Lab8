@@ -49,9 +49,39 @@ if __name__ == '__main__':
                 people.sort(key=lambda item: item.get('name', ''))
 
         elif command == 'list':
-            for person in people:
-                for d in person:
-                    print(d, ':', person[d])
+            line = '+-{}-+-{}-+-{}-+-{}-+-{}-+-{}-+'.format(
+                '-' * 4,
+                '-' * 30,
+                '-' * 20,
+                '-' * 8,
+                '-' * 8,
+                '-' * 8
+            )
+            print(line)
+            print(
+                '| {:^3} | {:^30} | {:^20} | {:^8} | {:^8} | {:^8} |'.format(
+                    "№",
+                    "ФИО",
+                    "Номер телефона",
+                    "День",
+                    "Месяц",
+                    "Год"
+                )
+            )
+            print(line)
+
+            for idx, person in enumerate(people, 1):
+                print(
+                    '| {:>4} | {:<30} | {:<20} | {:>8} | {:>8} | {:>8} |'.format(
+                        idx,
+                        person.get('name', ''),
+                        person.get('phone', ''),
+                        person.get('birthday[0]', ''),
+                        person.get('birthday[1]', ''),
+                        person.get('birthday[2]', '')
+                    )
+                )
+            print(line)
 
         elif command.startswith('select '):
             parts = command.split(' ', maxsplit=2)
